@@ -1,7 +1,11 @@
+using MicrowaveChallenge.Application.Interfaces;
+using MicrowaveChallenge.Application.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<IMicroondasService, MicroondasService>();
 
 var app = builder.Build();
 

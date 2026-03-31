@@ -1,8 +1,84 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model MicrowaveChallenge.Models.MicroondasViewModel
+
+@{
+    ViewData["Title"] = "Micro-ondas Digital";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <h2>Micro-ondas Digital</h2>
+    <hr />
+
+    @if (!string.IsNullOrWhiteSpace(Model.Mensagem))
+    {
+        <div class="alert alert-warning">
+            @Model.Mensagem
+        </div>
+    }
+
+    @if (TempData["Mensagem"] != null)
+    {
+        <div class="alert alert-warning">
+            @TempData["Mensagem"]
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-5">
+            <form asp-action="Iniciar" method="post">
+                <div class="mb-3">
+                    <label asp-for="Tempo" class="form-label">Tempo (segundos)</label>
+                    <input asp-for="Tempo" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Potencia" class="form-label">Potência (1 a 10)</label>
+                    <input asp-for="Potencia" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="NomeProgramaSelecionado" class="form-label">Programa pré-definido</label>
+                    <select asp-for="NomeProgramaSelecionado" class="form-select">
+                        <option value="">Selecione</option>
+                        @foreach (var programa in Model.Programas)
+                        {
+                            <option value="@programa.Nome">
+                                @programa.Nome - @programa.Alimento
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Iniciar</button>
+            </form>
+
+            <form asp-action="InicioRapido" method="post" class="mt-2">
+                <button type="submit" class="btn btn-success">Início Rápido</button>
+            </form>
+
+            <form asp-action="PausarOuCancelar" method="post" class="mt-2">
+                <button type="submit" class="btn btn-warning">Pausar / Cancelar</button>
+            </form>
+
+            <form asp-action="Processar" method="post" class="mt-2">
+                <button type="submit" class="btn btn-secondary">Processar +1 segundo</button>
+            </form>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Status</h5>
+                    <p><strong>@Model.Status</strong></p>
+
+                    <h5>Tempo restante</h5>
+                    <p>@Model.TempoFormatado</p>
+
+                    <h5>Progresso</h5>
+                    <div style="min-height: 140px; white-space: pre-wrap; word-break: break-word; background: #f8f9fa; padding: 10px; border: 1px solid #ddd;">
+                        @Model.Progresso
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
