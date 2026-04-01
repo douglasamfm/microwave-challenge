@@ -1,32 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MicrowaveChallenge.Domain.Entities;
 
-using global::MicrowaveChallenge.Domain.Entities;
-using MicrowaveChallenge.Domain.Entities;
+namespace MicrowaveChallenge.Application.Interfaces;
 
-namespace MicrowaveChallenge.Application.Interfaces
+public interface IMicroondasService
 {
+    ProcessoAquecimento ObterEstado();
 
+    void Iniciar(int? tempo, int? potencia);
 
-    public interface IMicroondasService
-    {
-        ProcessoAquecimento ObterEstado();
+    void InicioRapido();
 
-        void Iniciar(int? tempo, int? potencia);
+    void IniciarPrograma(string nomePrograma);
 
-        void InicioRapido();
+    void PausarOuCancelar();
 
-        void IniciarPrograma(string nomePrograma);
+    void Processar();
 
-        void PausarOuCancelar();
+    IReadOnlyCollection<ProgramaAquecimento> ObterProgramas();
 
-        void Processar();
-
-        List<ProgramaAquecimento> ObterProgramas();
-
-        void AdicionarProgramaCustomizado(ProgramaAquecimento programa);
-    }
+    void AdicionarProgramaCustomizado(ProgramaAquecimento programa);
 }

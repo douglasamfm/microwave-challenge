@@ -13,6 +13,12 @@ public class ProcessoAquecimento
     public StatusMicroondas Status { get; private set; } = StatusMicroondas.Inativo;
     public bool EhProgramaPreDefinido { get; private set; }
 
+    public bool EstaEmExecucao => Status == StatusMicroondas.EmExecucao;
+    public bool EstaPausado => Status == StatusMicroondas.Pausado;
+    public bool EstaFinalizado => Status == StatusMicroondas.Finalizado;
+    public bool EstaInativo => Status == StatusMicroondas.Inativo;
+    public bool PodeAcrescentarTempo => EstaEmExecucao && !EhProgramaPreDefinido;
+
     public void Iniciar(int tempoEmSegundos, int? potencia)
     {
         if (tempoEmSegundos < 1 || tempoEmSegundos > 120)

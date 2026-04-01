@@ -12,11 +12,14 @@ public class MicroondasService : IMicroondasService
 
     public MicroondasService()
     {
-        _programas = CriarProgramasPadrao();
+        _programas = FabricaProgramasPadrao.Criar();
         ValidarCaracteresUnicos();
     }
 
-    public ProcessoAquecimento ObterEstado() => _processo;
+    public ProcessoAquecimento ObterEstado()
+    {
+        return _processo;
+    }
 
     public void Iniciar(int? tempo, int? potencia)
     {
@@ -39,7 +42,7 @@ public class MicroondasService : IMicroondasService
         }
 
         if (!tempo.HasValue)
-            throw new ExcecaoDeNegocio("Informe um tempo válido.");
+            throw new ExcecaoDeNegocio("Informe um tempo valido.");
 
         _processo.Iniciar(tempo.Value, potencia);
     }
@@ -55,7 +58,7 @@ public class MicroondasService : IMicroondasService
             p.Nome.Equals(nomePrograma, StringComparison.OrdinalIgnoreCase));
 
         if (programa is null)
-            throw new ExcecaoDeNegocio("Programa não encontrado.");
+            throw new ExcecaoDeNegocio("Programa nao encontrado.");
 
         _processo.IniciarProgramaPreDefinido(programa);
     }
@@ -70,49 +73,26 @@ public class MicroondasService : IMicroondasService
         _processo.ProcessarSegundo();
     }
 
-    public List<ProgramaAquecimento> ObterProgramas()
+    public IReadOnlyCollection<ProgramaAquecimento> ObterProgramas()
     {
-        return _programas;
+        return _programas.AsReadOnly();
     }
 
     public void AdicionarProgramaCustomizado(ProgramaAquecimento programa)
     {
         if (_programas.Any(p => p.CaractereAquecimento == programa.CaractereAquecimento))
-            throw new ExcecaoDeNegocio("Caractere já utilizado.");
+            throw new ExcecaoDeNegocio("Caractere ja utilizado.");
 
         _programas.Add(programa);
     }
 
-    private List<ProgramaAquecimento> CriarProgramasPadrao()
-    {
-        return new List<ProgramaAquecimento>
-        {
-            new("Pipoca", "Pipoca de micro-ondas", 120, 7, '*',
-                "Observar o intervalo entre estouros."),
-
-            new("Leite", "Leite", 120, 5, '~',
-                "Cuidado com líquidos quentes."),
-
-            new("Carnes", "Carne em pedaços ou fatias", 120, 4, '#',
-                "Interrompa na metade e vire o conteúdo."),
-
-            new("Frango", "Frango", 120, 7, '@',
-                "Interrompa na metade e vire o conteúdo."),
-
-            new("Feijão", "Feijão congelado", 120, 9, '%',
-                "Deixe o recipiente destampado.")
-        };
-    }
-
     private void ValidarCaracteresUnicos()
     {
-        var repetidos = _programas
+        var existemCaracteresDuplicados = _programas
             .GroupBy(p => p.CaractereAquecimento)
-            .Where(g => g.Count() > 1)
-            .Select(g => g.Key)
-            .ToList();
+            .Any(g => g.Count() > 1);
 
-        if (repetidos.Any())
-            throw new Exception("Existem caracteres duplicados nos programas padrão.");
+        if (existemCaracteresDuplicados)
+            throw new InvalidOperationException("Existem caracteres duplicados nos programas padrao.");
     }
 }

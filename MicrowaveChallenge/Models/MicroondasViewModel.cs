@@ -13,5 +13,5 @@ public class MicroondasViewModel
     public string TempoFormatado { get; set; } = "0:00";
     public string Mensagem { get; set; } = string.Empty;
 
-    public List<ProgramaAquecimento> Programas { get; set; } = new();
+    public IReadOnlyCollection<ProgramaAquecimento> Programas { get; set; } = new List<ProgramaAquecimento>();
 }
