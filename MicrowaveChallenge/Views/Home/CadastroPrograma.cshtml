@@ -1,0 +1,52 @@
+﻿@model MicrowaveChallenge.Models.CadastroProgramaViewModel
+
+@{
+    ViewData["Title"] = "Cadastro de Programa";
+}
+
+<div class="container mt-4">
+    <h2>Cadastro de Programa Customizado</h2>
+    <hr />
+
+    @if (ViewBag.Mensagem != null)
+    {
+        <div class="alert alert-warning">
+            @ViewBag.Mensagem
+        </div>
+    }
+
+    <form asp-action="CadastroPrograma" method="post">
+        <div class="mb-3">
+            <label asp-for="Nome" class="form-label">Nome</label>
+            <input asp-for="Nome" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Alimento" class="form-label">Alimento</label>
+            <input asp-for="Alimento" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="TempoEmSegundos" class="form-label">Tempo em segundos</label>
+            <input asp-for="TempoEmSegundos" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Potencia" class="form-label">Potência</label>
+            <input asp-for="Potencia" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CaractereAquecimento" class="form-label">Caractere de aquecimento</label>
+            <input asp-for="CaractereAquecimento" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Instrucoes" class="form-label">Instruções</label>
+            <textarea asp-for="Instrucoes" class="form-control"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar Programa</button>
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+    </form>
+</div>

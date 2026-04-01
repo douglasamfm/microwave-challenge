@@ -57,9 +57,13 @@ public class ProcessoAquecimento
             return;
 
         TempoRestante += 30;
+        TempoTotal += 30;
 
         if (TempoRestante > 120)
             TempoRestante = 120;
+
+        if (TempoTotal > 120)
+            TempoTotal = 120;
     }
 
     public void PausarOuCancelar()
@@ -93,7 +97,7 @@ public class ProcessoAquecimento
         if (TempoRestante <= 0)
             return;
 
-        Progresso += new string(CaractereAquecimento, Potencia);
+        Progresso += new string(CaractereAquecimento, Potencia) + " ";
         TempoRestante--;
 
         if (TempoRestante == 0)
@@ -105,8 +109,8 @@ public class ProcessoAquecimento
 
     public void Cancelar()
     {
-        Status = StatusMicroondas.Cancelado;
         Limpar();
+        Status = StatusMicroondas.Cancelado;
     }
 
     public void Limpar()

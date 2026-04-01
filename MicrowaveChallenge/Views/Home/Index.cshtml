@@ -1,19 +1,13 @@
 ﻿@model MicrowaveChallenge.Models.MicroondasViewModel
 
 @{
-    ViewData["Title"] = "Micro-ondas Digital";
+    ViewData["Title"] = "Micro-ondas Digital - Douglas Fernandes";
 }
 
 <div class="container mt-4">
     <h2>Micro-ondas Digital</h2>
     <hr />
 
-    @if (!string.IsNullOrWhiteSpace(Model.Mensagem))
-    {
-        <div class="alert alert-warning">
-            @Model.Mensagem
-        </div>
-    }
 
     @if (TempData["Mensagem"] != null)
     {
@@ -37,7 +31,7 @@
 
                 <div class="mb-3">
                     <label asp-for="NomeProgramaSelecionado" class="form-label">Programa pré-definido</label>
-                    <select asp-for="NomeProgramaSelecionado" class="form-select">
+                    <select asp-for="NomeProgramaSelecionado" class="form-select" onchange="desabilitarCampos(this)">
                         <option value="">Selecione</option>
                         @foreach (var programa in Model.Programas)
                         {
@@ -62,6 +56,9 @@
             <form asp-action="Processar" method="post" class="mt-2">
                 <button type="submit" class="btn btn-secondary">Processar +1 segundo</button>
             </form>
+
+
+            <a asp-action="CadastroPrograma" class="btn btn-dark mt-2">Cadastrar Programa</a>
         </div>
 
         <div class="col-md-7">
@@ -82,3 +79,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    function desabilitarCampos(select) {
+        const temPrograma = select.value !== "";
+
+        document.querySelector('[name="Tempo"]').disabled = temPrograma;
+        document.querySelector('[name="Potencia"]').disabled = temPrograma;
+    }
+</script>
